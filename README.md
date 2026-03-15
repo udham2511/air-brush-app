@@ -1,6 +1,6 @@
 # 🎨 Air Brush App
 
-This web app is a modern conversion of the original [Air Brush Python software](https://github.com/udham2511/air-brush) 🐍. It brings magical hand-tracking drawing to any browser with camera support! 🌐
+This web app is a modern conversion of the original [Air Brush Python software](https://github.com/udham2511/air-brush) 🐍. It brings magical hand-tracking drawing to any browser with camera support! 🌐 [Live Link](https://udham2511.github.io/air-brush-app/)
 
 ## ✨ Features
 - 🤖 **Hand Tracking**: Real-time gesture recognition with MediaPipe
