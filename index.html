@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air Brush</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Custom CSS -->
+    <style>
+      #options-menu button:not(.active-option):hover {
+        color: #fff;
+        background-color: color-mix(in srgb, #fff 5%, transparent);
+      }
+
+      #options-menu button.active-option {
+        border-color: color-mix(
+          in oklab,
+          oklch(58.5% 0.233 277.117) 50%,
+          transparent
+        );
+        color: oklch(67.3% 0.182 276.935);
+
+        --tw-shadow: 0 0 15px var(--tw-shadow-color, rgba(99, 102, 241, 0.2));
+        box-shadow:
+          var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+          var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+
+        background-color: color-mix(
+          in oklab,
+          oklch(58.5% 0.233 277.117) 20%,
+          transparent
+        );
+      }
+
+      #color-menu button.active-option {
+        --tw-ring-offset-color: var(--color-black);
+        --tw-ring-offset-width: 2px;
+        --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-color: var(--color-white);
+        --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0
+          calc(2px + var(--tw-ring-offset-width))
+          var(--tw-ring-color, currentcolor);
+        box-shadow:
+          var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+          var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    </style>
+  </head>
+  <body
+    class="relative h-screen w-screen bg-black text-slate-100 overflow-hidden font-sans"
+  >
+    <!-- Camera feed and Canvas -->
+    <div>
+      <video
+        id="video"
+        class="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
+        autoplay
+        playsinline
+      ></video>
+
+      <!-- For drawing -->
+      <canvas
+        id="drawing-canvas"
+        class="absolute inset-0 w-full h-full pointer-events-none"
+      >
+      </canvas>
+
+      <!-- Updates every frame -->
+      <canvas
+        id="canvas"
+        class="absolute inset-0 w-full h-full pointer-events-none"
+      ></canvas>
+    </div>
+
+    <!-- Navbar -->
+    <nav
+      class="absolute top-6 inset-x-0 flex justify-between px-8 items-center pointer-events-none"
+    >
+      <div class="flex flex-col gap-2">
+        <div
+          class="flex items-center gap-4 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl w-fit"
+        >
+          <div class="flex items-center gap-2 border-r border-white/10 pr-4">
+            <div
+              class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]"
+            ></div>
+            <span
+              class="text-[10px] font-bold tracking-widest uppercase opacity-70"
+            >
+              Tracking
+            </span>
+          </div>
+          <div class="flex flex-col">
+            <span
+              id="fps-counter"
+              class="text-sm font-mono font-bold text-cyan-400"
+            >
+              0 FPS
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 pointer-events-auto">
+        <button
+          id="clear-button"
+          class="group flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/40 backdrop-blur-xl rounded-xl transition-all cursor-pointer"
+        >
+          <span
+            class="text-xs font-bold uppercase tracking-wider text-slate-300 group-hover:text-red-400 transition-colors"
+          >
+            Clear All
+          </span>
+        </button>
+
+        <button
+          id="export-button"
+          class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-600/30 rounded-xl transition-all text-sm font-bold uppercase tracking-wider cursor-pointer"
+        >
+          Export
+        </button>
+      </div>
+    </nav>
+
+    <!-- Options Menu -->
+    <aside
+      id="options-menu"
+      class="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 p-3 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl pointer-events-auto"
+    >
+      <button
+        title="pencil"
+        class="p-4 text-white/40 rounded-2xl border border-transparent cursor-pointer active-option"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+          />
+        </svg>
+      </button>
+
+      <button
+        title="square"
+        class="p-4 text-white/40 border border-transparent rounded-2xl transition-all cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" />
+        </svg>
+      </button>
+
+      <button
+        title="circle"
+        class="p-4 text-white/40 border border-transparent rounded-2xl transition-all cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <circle cx="12" cy="12" r="8" stroke-width="2" />
+        </svg>
+      </button>
+
+      <button
+        title="eraser"
+        class="p-4 text-white/40 border border-transparent rounded-2xl transition-all cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"
+          />
+          <path d="m22 21H7" />
+          <path d="m5 11 9 9" />
+        </svg>
+      </button>
+
+      <button
+        title="line"
+        class="p-4 text-white/40 border border-transparent rounded-2xl transition-all cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M5 12h14" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </aside>
+
+    <!-- Color Menu -->
+    <section
+      class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-8 px-8 py-4 bg-black/40 backdrop-blur-3xl border border-white/10 rounded-3xl"
+    >
+      <div id="color-menu" class="flex gap-3 border-r border-white/10 pr-8">
+        <button
+          value="#fff"
+          class="w-8 h-8 rounded-full bg-white cursor-pointer transition-transform hover:scale-110 active-option"
+        ></button>
+        <button
+          value="#f7359b"
+          class="w-8 h-8 rounded-full bg-pink-500 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+        <button
+          value="#00d3f2"
+          class="w-8 h-8 rounded-full bg-cyan-400 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+        <button
+          value="#fcc800"
+          class="w-8 h-8 rounded-full bg-yellow-400 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+        <button
+          value="#00c951"
+          class="w-8 h-8 rounded-full bg-green-500 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+        <button
+          value="#fb2c36"
+          class="w-8 h-8 rounded-full bg-red-500 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+        <button
+          value="#ff6900"
+          class="w-8 h-8 rounded-full bg-orange-500 cursor-pointer transition-transform hover:scale-110"
+        ></button>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span
+          class="text-[10px] uppercase tracking-tighter text-white/40 font-bold"
+        >
+          Brush Size
+        </span>
+        <input
+          id="brush-size"
+          value="15"
+          type="range"
+          class="w-32 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+        />
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="./src/script.js"></script>
+  </body>
+</html>
