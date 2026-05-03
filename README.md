@@ -1,46 +1,93 @@
 # 🎨 Air Brush App
 
-This web app is a modern conversion of the original [Air Brush Python software](https://github.com/udham2511/air-brush) 🐍. It brings magical hand-tracking drawing to any browser with camera support! 🌐
+Create digital art using hand gestures in real-time with your webcam!
 
-## ✨ Features
-- 🤖 **Hand Tracking**: Real-time gesture recognition with MediaPipe
-- 🛠️ **Multiple Tools**: Pencil, Square, Circle, Line, Eraser
-- 🎨 **Color Selection**: 7 predefined colors
-- 🔄 **Dynamic Brush Sizing**: Adjust with pinky finger gestures
-- 👆 **Gesture Drawing**: Draw with middle finger, select with index
-- 👈 **Air Click UI**: Touch menus with finger tips
-- 💾 **Export**: Save artwork as PNG
-- 👀 **Real-Time Preview**: Hand skeleton overlay
-- 📱 **Responsive**: Works on different screen sizes
+- Web based conversion of the [Air Brush Python software](https://github.com/udham2511/air-brush)
 
-## 🛠️ Tech Stack
-- 🌐 HTML5/CSS3 (Tailwind)
-- 💻 JavaScript
-- 🤖 MediaPipe Hands
-- 🎭 Canvas API
-- 📹 WebRTC
+🔗 **[Live Demo](https://udham2511.github.io/air-brush-app/)**
 
-## 🚀 Quick Start
+## 🎯 Features
 
-**Prerequisites**: Modern browser with webcam, good lighting
+- **Tool pane**l on the left.
+- **Color** and **brush-size control bar** at the bottom.
+- **FPS counter** at the top.
+- **Clear All** and **Export** buttons sit in the top-right corner.
 
-1. **Clone**: `git clone https://github.com/your-username/air-brush-app.git`
-2. **Serve**: Use `python -m http.server 8000` or Live Server
-3. **Open**: `http://localhost:8000` and grant camera access
+<table style="width:100%; table-layout:fixed; border-collapse:collapse;">
+  <tr>
+    <td style="padding:8px; vertical-align:top; width:100%;">
+      <img src="./demo/ui.png" style="width:100%; border-radius:14px;" alt="Air Brush UI"></img>
+    </td>
+  </tr>
+</table>
 
-## 🎮 Usage
-- ▶️ **Start**: Allow camera
-- 🔧 **Tools**: Index finger "air clicks" buttons
-- 🌈 **Colors**: Select from palette
-- ✍️ **Draw**: Middle finger up
-- 📏 **Size**: Pinky up + thumb/index distance
-- 🧽 **Erase**: Select eraser tool
-- 🗑️ **Clear**: "Clear All" button
-- 💾 **Export**: Download PNG
+## 🎮 Quick Start
+
+```bash
+git clone https://github.com/udham2511/air-brush-app.git
+cd air-brush-app
+```
+
+Then open `index.html` and allow camera access.
+
+- Point your index finger at tool buttons
+- Choose a color
+- Raise middle finger to draw
+- Raise pinky and move your index and thumb closer or farther to resize the brush
+- Click Export to save your art
+
+## 🛠️ Tool Gallery
+
+<table style="width:100%; table-layout:fixed; border-collapse:collapse;">
+  <tr>
+    <td style="padding:8px; vertical-align:top; width:50%;">
+      <h4>Pencil Tool</h4>
+      <img src="./demo/pen.png" style="width:100%; border-radius:12px;" alt="Pencil tool demo"></img>
+    </td>
+    <td style="padding:8px; vertical-align:top; width:50%;">
+      <h4>Rectangle Tool</h4>
+      <img src="./demo/rectangle.png" style="width:100%; border-radius:12px;" alt="Rectangle tool"></img>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding:8px; vertical-align:top; width:50%;">
+      <h4>Circle Tool</h4>
+      <img src="./demo/circle.png" style="width:100%; border-radius:12px;" alt="Circle tool"></img>
+    </td>
+    <td style="padding:8px; vertical-align:top; width:50%;">
+      <h4>Line Tool</h4>
+      <img src="./demo/line.png" style="width:100%; border-radius:12px;" alt="Line tool"></img>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding:8px; vertical-align:top; width:50%;">
+      <h4>Eraser Tool</h4>
+      <img src="./demo/eraser.png" style="width:100%; border-radius:12px;" alt="Eraser tool"></img>
+    </td>
+     <td style="padding:8px; vertical-align:top; width:100%;">
+      <h4>Resize</h4>
+      <video width="100%" style="border-radius:12px;" autoplay loop muted playsinline>
+        <source src="./demo/resize.mp4" type="video/mp4">
+      </video>
+    </td>
+  </tr>
+</table>
+
+## 🖼️ Output Preview
+
+You can **download the result as a PNG** with the Export button.
+
+<img src="./demo/output.png" style="width:100%; border-radius:12px;" alt="Drawing output"></img>
 
 ## 🤝 Contributing
-Fork, create branch, make changes, test, PR! 🎉
 
----
+1. Fork it
+2. Create a branch
+3. Add your feature
+4. Submit a PR
 
-Made with ❤️ and lots of ✋ gestures!
+## 👤 Author
+
+Made with 💻 and ☕ by [@udham2511]("https://www.github.com/udham2511")
