@@ -13,13 +13,7 @@ Create digital art using hand gestures in real-time with your webcam!
 - **FPS counter** at the top.
 - **Clear All** and **Export** buttons sit in the top-right corner.
 
-<table style="width:100%; table-layout:fixed; border-collapse:collapse;">
-  <tr>
-    <td style="padding:8px; vertical-align:top; width:100%;">
-      <img src="./demo/ui.png" style="width:100%; border-radius:14px;" alt="Air Brush UI"></img>
-    </td>
-  </tr>
-</table>
+<img align="center" src="./demo/ui.png" style="border-radius:12px;" alt="Air Brush UI"></img>
 
 ## 🎮 Quick Start
 
@@ -68,9 +62,7 @@ Then open `index.html` and allow camera access.
     </td>
      <td style="padding:8px; vertical-align:top; width:100%;">
       <h4>Resize</h4>
-      <video width="100%" style="border-radius:12px;" autoplay loop muted playsinline>
-        <source src="./demo/resize.mp4" type="video/mp4">
-      </video>
+      <img src="./demo/resize.gif" style="width:100%; border-radius:12px;" alt="Resize"></img>
     </td>
   </tr>
 </table>
